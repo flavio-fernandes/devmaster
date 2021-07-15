@@ -31,8 +31,17 @@ Vagrant.configure("2") do |config|
   config.ssh.forward_agent = true
   config.vm.define "devmaster" do |node|
     node.vm.hostname = "devmaster"
-    node.vm.synced_folder ".", "/vagrant", type: "sshfs"
-    node.vm.synced_folder "~/dev", "/home/vagrant/dev", type: "sshfs"
+    if ENV['VM_MOUNT_NFS']
+      node.vm.synced_folder "#{ENV['PWD']}", "/vagrant", type: "nfs",
+                            nfs_udp: false,
+                            :linux__nfs_options => ['rw','no_subtree_check','no_root_squash']
+      node.vm.synced_folder "~/dev", "/home/vagrant/dev", type: "nfs",
+                            nfs_udp: false,
+                            :linux__nfs_options => ['rw','no_subtree_check','no_root_squash']
+    else
+      node.vm.synced_folder ".", "/vagrant", type: "sshfs"
+      node.vm.synced_folder "~/dev", "/home/vagrant/dev", type: "sshfs"
+    end
     node.vm.provision "shell", inline: "/vagrant/.provisioners/provision.sh system"
     node.vm.provision "shell", inline: "/vagrant/.provisioners/provision.sh user", privileged: false
     node.trigger.before :destroy do |t|
