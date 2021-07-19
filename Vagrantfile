@@ -25,6 +25,10 @@ Vagrant.configure("2") do |config|
         "guestproperty", "set", :id,
         "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", 10000]
   end
+  config.vm.network "public_network",
+                    :dev => "bridge0",
+                    :mode => "bridge",
+                    :type => "bridge"
   config.hostmanager.enabled = true
   config.hostmanager.manage_host = true
   config.hostmanager.manage_guest = true
@@ -48,6 +52,9 @@ Vagrant.configure("2") do |config|
       t.info = "Checking for no dirty dotfiles"
       t.run_remote = {inline: "bash -c 'cd /home/vagrant/.dotfiles && git diff --quiet && git diff --cached --quiet || exit 1'"}
       t.on_error = :halt
+    end
+    node.vm.provision :shell do |shell|
+        shell.path = 'provisioning/flaviof_devel.sh'
     end
   end
   (1..NUM_DEVWORKERS).each do |i|
