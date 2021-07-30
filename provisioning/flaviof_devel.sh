@@ -5,7 +5,7 @@
 set -o xtrace
 ##set -o errexit
 
-dnf install -y tmux wget emacs vim tmate
+dnf install -y tmux wget emacs vim tmate bat
 
 cat << EOT >> /root/.emacs
 ;; use C-x g for goto-line
@@ -26,7 +26,7 @@ EOT
     chown vagrant:vagrant /home/vagrant/.emacs
 }
 
-for k in flavio-fernandes otherwiseguy cubeek umago numansiddique dceara jcaamano alexanderConstantinescu abhat ; do
+for k in flavio-fernandes otherwiseguy cubeek umago numansiddique dceara jcaamano alexanderConstantinescu abhat astoycos dave-tucker bpickard22 kyrtapz ; do
   echo -n "$k "
   wget -O - --quiet https://github.com/${k}.keys >> /home/vagrant/.ssh/authorized_keys 2>/dev/null
 done
