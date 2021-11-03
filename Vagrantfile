@@ -48,12 +48,16 @@ Vagrant.configure("2") do |config|
     end
     node.vm.provision "shell", inline: "/vagrant/.provisioners/provision.sh system"
     node.vm.provision "shell", inline: "/vagrant/.provisioners/provision.sh user", privileged: false
-    node.trigger.before :destroy do |t|
-      t.info = "Checking for no dirty dotfiles"
-      t.run_remote = {inline: "bash -c 'cd /home/vagrant/.dotfiles && git diff --quiet && git diff --cached --quiet || exit 1'"}
-      t.on_error = :halt
+    #node.trigger.before :destroy do |t|
+    #  t.info = "Checking for no dirty dotfiles"
+    #  t.run_remote = {inline: "bash -c 'cd /home/vagrant/.dotfiles && git diff --quiet && git diff --cached --quiet || exit 1'"}
+    #  t.on_error = :halt
+    #end
+    node.vm.provision :shell do |shell|
+        shell.path = 'provisioning/flaviof_devel_root.sh'
     end
     node.vm.provision :shell do |shell|
+        shell.privileged = false
         shell.path = 'provisioning/flaviof_devel.sh'
     end
   end
