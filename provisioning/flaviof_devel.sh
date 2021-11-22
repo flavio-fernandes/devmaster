@@ -25,6 +25,8 @@ function gqit () {
 }
 
 alias podman='docker'
+set +C
+export KUBECONFIG=\${HOME}/admin.conf
 EOT
 
 echo ok
