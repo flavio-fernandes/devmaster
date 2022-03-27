@@ -2,16 +2,14 @@
 # vi: set ft=ruby :
 
 NUM_DEVWORKERS = (ENV['DEVWORKERS'] || 0).to_i
-RAM = 12288
+RAM = 16384
 VCPUS = 4
 
 Vagrant.configure("2") do |config|
   vm_memory = ENV['VM_MEMORY'] || RAM
   vm_cpus = ENV['VM_CPUS'] || VCPUS
 
-  #config.vm.box = "opensuse/Tumbleweed.x86_64"
-  #config.vm.box = "opensuse/Leap-15.2.x86_64"
-  config.vm.box = "fedora/34-cloud-base"
+  config.vm.box = "fedora/35-cloud-base"
   config.vm.provider "libvirt" do |provider|
     provider.cpus = vm_cpus
     provider.memory = vm_memory

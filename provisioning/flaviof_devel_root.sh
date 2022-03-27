@@ -6,6 +6,7 @@ set -o xtrace
 ##set -o errexit
 
 dnf install -y tmux wget emacs vim tmate bat
+dnf groupinstall -y "Development Tools"
 
 cat << EOT >> /root/.emacs
 ;; use C-x g for goto-line

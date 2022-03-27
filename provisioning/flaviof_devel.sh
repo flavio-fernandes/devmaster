@@ -5,7 +5,12 @@
 set -o xtrace
 ##set -o errexit
 
-for k in flavio-fernandes otherwiseguy cubeek umago numansiddique dceara jcaamano alexanderConstantinescu abhat astoycos dave-tucker bpickard22 kyrtapz ; do
+[ -e /home/vagrant/.emacs ] || {
+    cp -v {/root,/home/vagrant}/.emacs
+    chown vagrant:vagrant /home/vagrant/.emacs
+}
+
+for k in flavio-fernandes otherwiseguy cubeek umago numansiddique dceara jcaamano alexanderConstantinescu abhat astoycos dave-tucker bpickard22 kyrtapz tssurya trozet ; do
   echo -n "$k "
   wget -O - --quiet https://github.com/${k}.keys >> /home/vagrant/.ssh/authorized_keys 2>/dev/null
 done
@@ -28,5 +33,8 @@ alias podman='docker'
 set +C
 export KUBECONFIG=\${HOME}/admin.conf
 EOT
+
+# https://github.com/go-delve/delve/blob/master/Documentation/installation/README.md
+go install github.com/go-delve/delve/cmd/dlv@latest
 
 echo ok
