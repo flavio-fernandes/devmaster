@@ -10,7 +10,7 @@ set -o xtrace
     chown vagrant:vagrant /home/vagrant/.emacs
 }
 
-for k in flavio-fernandes otherwiseguy cubeek umago numansiddique dceara jcaamano alexanderConstantinescu abhat astoycos dave-tucker bpickard22 kyrtapz tssurya trozet ; do
+for k in flavio-fernandes otherwiseguy cubeek umago numansiddique dceara jcaamano alexanderConstantinescu abhat astoycos dave-tucker bpickard22 kyrtapz tssurya trozet squeed ; do
   echo -n "$k "
   wget -O - --quiet https://github.com/${k}.keys >> /home/vagrant/.ssh/authorized_keys 2>/dev/null
 done
@@ -34,7 +34,7 @@ set +C
 export KUBECONFIG=\${HOME}/admin.conf
 EOT
 
-# https://github.com/go-delve/delve/blob/master/Documentation/installation/README.md
-go install github.com/go-delve/delve/cmd/dlv@latest
+# # https://github.com/go-delve/delve/blob/master/Documentation/installation/README.md
+# go install github.com/go-delve/delve/cmd/dlv@latest
 
 echo ok
