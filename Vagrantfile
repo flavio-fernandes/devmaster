@@ -31,7 +31,7 @@ Vagrant.configure("2") do |config|
   config.hostmanager.manage_host = true
   config.hostmanager.manage_guest = true
   config.ssh.forward_agent = true
-  config.vm.define "devmaster" do |node|
+  config.vm.define "devmaster-ffernandes" do |node|
     node.vm.hostname = "devmaster"
     if ENV['VM_MOUNT_NFS']
       node.vm.synced_folder "#{ENV['PWD']}", "/vagrant", type: "nfs",
