@@ -1,0 +1,2 @@
+MAILTO=""
+*/20 * * * * /vagrant/provisioning/dyndns.sh >/dev/null 2>&1 ||:

@@ -5,7 +5,7 @@
 set -o xtrace
 ##set -o errexit
 
-dnf install -y tmux wget emacs vim tmate bat pip
+dnf install -y tmux wget emacs vim tmate bat pip dnsutils cronie
 dnf groupinstall -y "Development Tools"
 
 cat << EOT >> /root/.emacs

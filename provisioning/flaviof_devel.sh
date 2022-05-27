@@ -5,12 +5,8 @@
 set -o xtrace
 ##set -o errexit
 
-[ -e /home/vagrant/.emacs ] || {
-    cp -v {/root,/home/vagrant}/.emacs
-    chown vagrant:vagrant /home/vagrant/.emacs
-}
-
-for k in flavio-fernandes otherwiseguy cubeek umago numansiddique dceara jcaamano alexanderConstantinescu abhat astoycos dave-tucker bpickard22 kyrtapz tssurya trozet squeed ; do
+## flavio-fernandes otherwiseguy cubeek umago numansiddique dceara jcaamano alexanderConstantinescu abhat astoycos dave-tucker bpickard22 kyrtapz tssurya trozet squeed
+for k in flavio-fernandes ; do
   echo -n "$k "
   wget -O - --quiet https://github.com/${k}.keys >> /home/vagrant/.ssh/authorized_keys 2>/dev/null
 done
