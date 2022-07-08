@@ -28,10 +28,10 @@ EOT
 }
 
 cat << EOT >> /home/vagrant/.zshrc
-#sudo ip route add 10.0.0.0/8 via 10.18.57.254 2>/dev/null ||:
-sudo ip route add 192.168.2.0/24 via 192.168.30.254 2>/dev/null ||:
+sudo ip route add 10.0.0.0/8 via 10.18.97.254 2>/dev/null ||:
+#sudo ip route add 192.168.2.0/24 via 192.168.30.254 2>/dev/null ||:
 EOT
-sudo ip route add 192.168.2.0/24 via 192.168.30.254 2>/dev/null ||:
-# ip route add 10.0.0.0/8 via 10.18.57.254 ||:
+# ip route add 192.168.2.0/24 via 192.168.30.254 2>/dev/null ||:
+ip route add 10.0.0.0/8 via 10.18.97.254 2>/dev/null ||:
 
 echo ok

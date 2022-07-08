@@ -1,18 +1,14 @@
 #!/usr/bin/env zsh
 
-VERSION=${1:-}
+VERSION=${1:-latest}
 URL="${URL:-https://mirror.openshift.com/pub/openshift-v4/clients/ocp}"
 DIR="/home/$USER/src/openshift/installer/${VERSION}"
 
-VERSIOND=${VERSION:-latest}
-VERSIONF=${VERSION:+-$VERSION}
-
-mkdir -p /home/$USER/src/openshift/installer/${VERSIOND}
+mkdir -p /home/$USER/src/openshift/installer/${VERSION}
 mkdir -p "$DIR" && cd "$DIR"
-rm -f openshift-install-linux${VERSIONF}.tar.gz openshift-client-linux${VERSIONF}.tar.gz
-wget "${URL}/${VERSIOND}/openshift-client-linux${VERSIONF}.tar.gz" && tar -xzvf openshift-client-linux${VERSIONF}.tar.gz
-wget "${URL}/${VERSIOND}/openshift-install-linux${VERSIONF}.tar.gz" && tar -xzvf openshift-install-linux${VERSIONF}.tar.gz
-rm -f openshift-install-linux${VERSIONF}.tar.gz openshift-client-linux${VERSIONF}.tar.gz
+wget "${URL}/${VERSION}/openshift-client-linux-${VERSION}.tar.gz" && tar -xzvf openshift-client-linux-${VERSION}.tar.gz
+wget "${URL}/${VERSION}/openshift-install-linux-${VERSION}.tar.gz" && tar -xzvf openshift-install-linux-${VERSION}.tar.gz
+rm openshift-install-linux-${VERSION}.tar.gz openshift-client-linux-${VERSION}.tar.gz
 
 CONFIG="/home/vagrant/.zshrc.d/openshift.zsh"
 mkdir -p $(dirname $CONFIG)

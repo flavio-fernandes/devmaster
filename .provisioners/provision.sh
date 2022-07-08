@@ -4,11 +4,6 @@ ID_MATCH=""
 SCOPE=$1
 DIR="$(dirname $0)/$SCOPE"
 
-run() {
-	echo "Running provisioner comand: $@"
-	$@
-}
-
 get_id_match() {
     [ ! -s "/etc/os-release" ] && echo "Can not find release information" && exit 1
 
@@ -28,17 +23,16 @@ install_packages() {
     [ -e "${DIR}/common/packages" ] && . ${DIR}/common/packages
     [ -n "$flavor" -a -e "${DIR}/${flavor}/packages" ] && . ${DIR}/${flavor}/packages
 
-    [ -n "${PKG_CLEAN}" ] && run ${PKG_CLEAN}
-    [ -n "${PKG_UPGRADE}" ] && run ${PKG_UPGRADE}
-    [ -n "${REPOS[*]}" ] && run ${REPO_INSTALL} ${REPOS[*]}
-    [ -n "${PKGS[*]}" ] && run ${PKG_INSTALL} ${PKGS[@]}
+    [ -n "${PKG_UPGRADE}" ] && ${PKG_UPGRADE}
+    [ -n "${REPOS[*]}" ] && ${REPO_INSTALL} ${REPOS[*]}
+    [ -n "${PKGS[*]}" ] && ${PKG_INSTALL} ${PKGS[@]}
 }
 
 provision() {
     local flavor="$1"
     for job in $(ls -1 ${DIR}/${flavor}); do
         [ "$job" = "packages" ] && continue
-	run ${DIR}/${flavor}/$job
+	${DIR}/${flavor}/$job
     done
 }
 
