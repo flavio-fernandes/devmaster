@@ -14,7 +14,9 @@ INSTALL_CONFIG="${INSTALL_CONFIG:-${CLUSTER_DIR}/install-config.yaml}"
 #https://openshift-release.apps.ci.l2s4.p1.openshiftapps.com/
 #TODO: Extract the latest? Nightly would be nice
 #https://github.com/openshift/ci-chat-bot/blob/a56ad688cb83c32d37ebec0e30af982710168752/manager.go#L660
-CI_VER=$(curl -vs https://openshift-release.apps.ci.l2s4.p1.openshiftapps.com/  2>&1 | grep "<a class=\"text-success\" href=\"/releasestream/4.12.0-0.ci/release/" -m1 | pup 'a text{}')
+#CI_VER=$(curl -vs https://openshift-release.apps.ci.l2s4.p1.openshiftapps.com/  2>&1 | grep "<a class=\"text-success\" href=\"/releasestream/4.11.0-0.ci/release/" -m1 | pup 'a text{}')
+#CI_VER='4.11.0-0.ci-2022-10-31-223024'
+CI_VER='4.10.0-0.ci-2023-01-18-081036'
 OCP_VER="${OCP_VER:-${CI_VER}}"
 OCP_URL="${OCP_URL:-registry.ci.openshift.org/ocp/release:${OCP_VER}}"
 # vs OpenshiftSDN

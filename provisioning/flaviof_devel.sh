@@ -27,6 +27,8 @@ function gqit () {
 
 alias podman='docker'
 alias ocn='oc -n openshift-ovn-kubernetes'
+alias k='kubectl'
+alias kn='kubectl -n ovn-kubernetes'
 set +C
 export KUBECONFIG=\${HOME}/admin.conf
 EOT
