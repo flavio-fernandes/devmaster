@@ -1,0 +1,49 @@
+if [ "${BASH_SOURCE[0]}" -ef "$0" ]
+then
+    >&2 echo 'Please source this script, not execute it!'
+    exit 1
+fi
+
+build_sdn_image() {
+    # note: make will expect to find podman... make an alias/copy?
+    SDN="/home/vagrant/dev/sdn.git"
+    pushd "${SDN}"
+    make build-image-sdn-test
+    popd
+}
+
+push_sdn_image_to_registry()
+{
+    uuid=$1
+    docker tag sdn-test:latest quay.io/ffernand/sdn-test:$uuid
+    docker push quay.io/ffernand/sdn-test:$uuid
+}
+
+update_cno ()
+{
+    oc patch clusterversion version --type json -p '[{"op":"add","path":"/spec/overrides","value":[{"kind":"Deployment","group":"apps","name":"network-operator","namespace":"openshift-network-operator","unmanaged":true}]}]'
+}
+
+custom_sdn ()
+{
+    uuid=$1
+    update_cno;
+    oc -n openshift-network-operator delete deployment network-operator ||:
+    oc -n openshift-sdn set image ds/sdn sdn=quay.io/ffernand/sdn-test:$uuid
+    oc -n openshift-sdn set image ds/sdn-controller sdn-controller=quay.io/ffernand/sdn-test:$uuid
+}
+
+push_sdn_image_to_cluster() {
+    uuid=$(uuidgen)
+    push_sdn_image_to_registry $uuid
+    custom_sdn $uuid
+}
+
+build_and_push_custom_sdn() {
+    build_sdn_image
+    push_sdn_image_to_cluster
+}
+
+echo xxxbothxxx build_and_push_custom_sdn
+echo xxx build_sdn_image
+echo xxx push_sdn_image_to_cluster
