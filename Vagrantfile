@@ -2,10 +2,10 @@
 # vi: set ft=ruby :
 
 NUM_DEVWORKERS = (ENV['DEVWORKERS'] || 0).to_i
-RAM = 16384
-VCPUS = 4
-#RAM = 49152
-#VCPUS = 6
+#RAM = 16384
+#VCPUS = 4
+RAM = 49152
+VCPUS = 6
 
 Vagrant.configure("2") do |config|
   vm_memory = ENV['VM_MEMORY'] || RAM
