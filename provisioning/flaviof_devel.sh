@@ -41,4 +41,6 @@ cd /home/vagrant/.local/bin
 curl -Lo filesInPatch.py https://raw.githubusercontent.com/openstack/neutron/033a445fbf3529ee5a5ed3488d7461fa80336f0d/tools/files_in_patch.py
 chmod 755 ./filesInPatch.py
 
+ln -s /home/vagrant/dev/network-tools.git/debug-scripts/network-tools ||:
+
 echo ok
