@@ -31,6 +31,10 @@ alias k='kubectl'
 alias kn='kubectl -n ovn-kubernetes'
 set +C
 export KUBECONFIG=\${HOME}/admin.conf
+export NS='kubectl config set-context --current --namespace'
+export DRY='--dry-run=client -oyaml'
+export NOW='--force --grace-period=0'
+export TPOD='kubectl run temp -n $ns --rm -i --restart=Never --image=nginx:alpine --command -- curl -m 5 ${IP}:${PORT}'
 EOT
 
 # # https://github.com/go-delve/delve/blob/master/Documentation/installation/README.md
