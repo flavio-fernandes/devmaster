@@ -2,16 +2,16 @@
 # vi: set ft=ruby :
 
 NUM_DEVWORKERS = (ENV['DEVWORKERS'] || 0).to_i
-RAM = 16384
-VCPUS = 4
-#RAM = 49152
-#VCPUS = 6
+#RAM = 16384
+#VCPUS = 4
+RAM = 49152
+VCPUS = 6
 
 Vagrant.configure("2") do |config|
   vm_memory = ENV['VM_MEMORY'] || RAM
   vm_cpus = ENV['VM_CPUS'] || VCPUS
 
-  config.vm.box = "fedora/36-cloud-base"
+  config.vm.box = "fedora/37-cloud-base"
   config.vm.provider "libvirt" do |provider|
     provider.cpus = vm_cpus
     provider.memory = vm_memory
