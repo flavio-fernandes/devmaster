@@ -1,0 +1,16 @@
+OVN_NAMESPACE="openshift-ovn-kubernetes"
+OVN_PLUGIN="OVNKubernetes"
+SDN_PLUGIN="OpenShiftSDN"
+NETWORK_TOOLS_IMAGE="quay.io/openshift/origin-network-tools:latest"
+
+export KUBECONFIG=/home/vagrant/beaker.conf
+## export KUBECONFIG=/home/vagrant/cb.conf
+
+    
+cd /home/vagrant/dev/network-tools.git/
+. ./debug-scripts/utils
+
+alias ocn='oc -n openshift-ovn-kubernetes'
+
+export NS='kubectl config set-context --current --namespace'
+set +e
