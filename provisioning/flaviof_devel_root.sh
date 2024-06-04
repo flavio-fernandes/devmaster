@@ -27,6 +27,13 @@ EOT
     chown vagrant:vagrant /home/vagrant/.emacs
 }
 
+# k9s
+mkdir -pv /tmp/k9_install && cd /tmp/k9_install
+wget --quiet https://github.com/derailed/k9s/releases/download/v0.26.7/k9s_Linux_x86_64.tar.gz && \
+tar xzvf k9s_Linux_x86_64.tar.gz k9s
+chmod +x ./k9s
+mv -vf ./k9s /usr/local/bin/
+
 cat << EOT >> /home/vagrant/.zshrc
 #sudo ip route add 10.0.0.0/8 via 10.18.57.254 2>/dev/null ||:
 sudo ip route add 192.168.2.0/24 via 192.168.30.254 2>/dev/null ||:

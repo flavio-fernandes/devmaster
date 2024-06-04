@@ -7,6 +7,15 @@ NUM_DEVWORKERS = (ENV['DEVWORKERS'] || 0).to_i
 RAM = 49152
 VCPUS = 6
 
+$tweak_routes = <<SCRIPT
+nmcli con modify 'Wired connection 2' ipv4.route-metric 50
+nmcli con up 'Wired connection 2'
+
+nmcli connection modify 'Wired connection 1' ipv4.never-default yes
+nmcli con modify 'Wired connection 1' ipv4.route-metric 200
+nmcli con up 'Wired connection 1'
+SCRIPT
+
 Vagrant.configure("2") do |config|
   vm_memory = ENV['VM_MEMORY'] || RAM
   vm_cpus = ENV['VM_CPUS'] || VCPUS
@@ -30,7 +39,8 @@ Vagrant.configure("2") do |config|
   config.vm.network "public_network",
                     :dev => "bridge0",
                     :mode => "bridge",
-                    :type => "bridge"
+                    :type => "bridge",
+                    use_dhcp_assigned_default_route: true
 
   config.hostmanager.enabled = true
   config.hostmanager.manage_host = true
@@ -106,6 +116,9 @@ Vagrant.configure("2") do |config|
       t.on_error = :halt
     end
 
+    node.vm.provision "tweak_routes", type: "shell",
+                      inline: $tweak_routes
+
     node.vm.provision :shell do |shell|
         shell.path = 'provisioning/flaviof_devel_root.sh'
     end
@@ -114,7 +127,7 @@ Vagrant.configure("2") do |config|
         shell.path = 'provisioning/flaviof_devel.sh'
     end
   end
-  
+
   # dummy workers
   (1..NUM_DEVWORKERS).each do |i|
     config.vm.define "devworker#{i}" do |node|
