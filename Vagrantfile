@@ -5,7 +5,7 @@ NUM_DEVWORKERS = (ENV['DEVWORKERS'] || 0).to_i
 #RAM = 16384
 #VCPUS = 4
 RAM = 49152
-VCPUS = 6
+VCPUS = 24
 
 $tweak_routes = <<SCRIPT
 nmcli con modify 'Wired connection 2' ipv4.route-metric 50
@@ -54,7 +54,7 @@ Vagrant.configure("2") do |config|
     
     # as of fedora 40, the disk is 5GB and not expanded so we have to do it ourselves
     node.vm.provider "libvirt" do |libvirt|
-      libvirt.machine_virtual_size = 200
+      libvirt.machine_virtual_size = 190
     end
     node.vm.provision "growpart", type: "shell", inline: "growpart /dev/vda 4 && btrfs filesystem resize max /"
 
