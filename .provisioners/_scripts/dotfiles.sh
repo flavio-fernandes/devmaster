@@ -15,4 +15,4 @@ branch="flaviof"
     [ -n "$branch" ] && git checkout "$branch"
 }
 
-stow zsh git code-server
+stow zsh git code-server devbin

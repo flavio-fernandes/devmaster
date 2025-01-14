@@ -1,14 +1,20 @@
 #!/usr/bin/env zsh
 
-VERSION=${1:-latest}
+set -x
+
+VERSION=${1:-}
 URL="${URL:-https://mirror.openshift.com/pub/openshift-v4/clients/ocp}"
 DIR="/home/$USER/src/openshift/installer/${VERSION}"
 
-mkdir -p /home/$USER/src/openshift/installer/${VERSION}
+VERSIOND=${VERSION:-latest}
+VERSIONF=${VERSION:+-$VERSION}
+
+mkdir -p /home/$USER/src/openshift/installer/${VERSIOND}
 mkdir -p "$DIR" && cd "$DIR"
-wget "${URL}/${VERSION}/openshift-client-linux-${VERSION}.tar.gz" && tar -xzvf openshift-client-linux-${VERSION}.tar.gz
-wget "${URL}/${VERSION}/openshift-install-linux-${VERSION}.tar.gz" && tar -xzvf openshift-install-linux-${VERSION}.tar.gz
-rm openshift-install-linux-${VERSION}.tar.gz openshift-client-linux-${VERSION}.tar.gz
+rm -f openshift-install-linux${VERSIONF}.tar.gz openshift-client-linux${VERSIONF}.tar.gz
+wget -nv "${URL}/${VERSIOND}/openshift-client-linux${VERSIONF}.tar.gz" && tar -xzvf openshift-client-linux${VERSIONF}.tar.gz
+wget -nv "${URL}/${VERSIOND}/openshift-install-linux${VERSIONF}.tar.gz" && tar -xzvf openshift-install-linux${VERSIONF}.tar.gz
+rm -f openshift-install-linux${VERSIONF}.tar.gz openshift-client-linux${VERSIONF}.tar.gz
 
 CONFIG="/home/vagrant/.zshrc.d/openshift.zsh"
 mkdir -p $(dirname $CONFIG)
@@ -16,5 +22,7 @@ rm -f $CONFIG
 echo "path=($DIR \$path)" > $CONFIG
 echo "export PATH" >> $CONFIG
 echo "export GOOGLE_CREDENTIALS=\${HOME}/dev/openshift/shared-secrets/gce/aos-serviceaccount.json" >> $CONFIG
+echo "export AWS_PROFILE=openshift-dev" >> $CONFIG
+echo "export OCP_CI_URL=https://openshift-release.apps.ci.l2s4.p1.openshiftapps.com/" >> $CONFIG
 source $CONFIG
 
