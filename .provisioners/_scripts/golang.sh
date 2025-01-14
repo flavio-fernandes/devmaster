@@ -14,4 +14,5 @@ mkdir -p $(dirname $CONFIG)
 rm -f $CONFIG
 echo "path=(/home/vagrant/go/bin /usr/local/go/bin \$path)" > $CONFIG
 echo "export PATH" >> $CONFIG
+chown -R vagrant:vagrant $(dirname $CONFIG)
 source $CONFIG
