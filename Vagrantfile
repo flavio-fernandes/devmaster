@@ -20,8 +20,9 @@ Vagrant.configure("2") do |config|
   vm_memory = ENV['VM_MEMORY'] || RAM
   vm_cpus = ENV['VM_CPUS'] || VCPUS
 
-  config.vm.box = "fedora/41-cloud-base"
-  config.vm.box_url = "https://download.fedoraproject.org/pub/fedora/linux/releases/41/Cloud/x86_64/images/Fedora-Cloud-Base-Vagrant-libvirt-41-1.4.x86_64.vagrant.libvirt.box"
+  # config.vm.box = "fedora/41-cloud-base"
+  # config.vm.box_url = "https://download.fedoraproject.org/pub/fedora/linux/releases/41/Cloud/x86_64/images/Fedora-Cloud-Base-Vagrant-libvirt-41-1.4.x86_64.vagrant.libvirt.box"
+  config.vm.box = "my_custom_fedora41"
   config.vm.provider "libvirt" do |provider|
     provider.cpus = vm_cpus
     provider.memory = vm_memory
@@ -110,11 +111,11 @@ Vagrant.configure("2") do |config|
     #provision
     node.vm.provision "system", type: "shell", inline: "/vagrant/.provisioners/provision.sh system", reboot: true
     node.vm.provision "user", type: "shell", inline: "/vagrant/.provisioners/provision.sh user", privileged: false
-    node.trigger.before :destroy do |t|
-      t.info = "Checking for no dirty dotfiles"
-      t.run_remote = {inline: "bash -c 'cd /home/vagrant/.dotfiles && git diff --quiet && git diff --cached --quiet || exit 1'"}
-      t.on_error = :halt
-    end
+    # node.trigger.before :destroy do |t|
+    #   t.info = "Checking for no dirty dotfiles"
+    #   t.run_remote = {inline: "bash -c 'cd /home/vagrant/.dotfiles && git diff --quiet && git diff --cached --quiet || exit 1'"}
+    #   t.on_error = :halt
+    # end
 
     node.vm.provision "tweak_routes", type: "shell",
                       inline: $tweak_routes
