@@ -13,22 +13,26 @@ done
 wget -O - --quiet https://launchpad.net/~numansiddique/+sshkeys >> /home/vagrant/.ssh/authorized_keys 2>/dev/null
 echo
 
-
-ln -s /home/vagrant/zshrc.d /home/vagrant/.zshrc.d ||:
-
 # ref 2021-Sep-09-Thu@14:45:53
 pip3 install o-must-gather percol --user
 
+# NOTE, these could go into dotfiles ~/dev/dotfiles.git/zsh/.zshrc
 cat << EOT >> /home/vagrant/.zshrc
 function gqit () {
    local commit_id=\$(git log --pretty=format:'%H %ad %s (%an)' --no-merges --date=short|percol | cut -d ' ' -f1)
    git show \$commit_id
 }
 
+function mkcd () {
+  mkdir -p \$1 && cd \$1
+}
+
 alias podman='docker'
 alias ocn='oc -n openshift-ovn-kubernetes'
+alias omgn='omg get pod -n openshift-ovn-kubernetes -owide'
 alias k='kubectl'
 alias kn='kubectl -n ovn-kubernetes'
+
 set +C
 export KUBECONFIG=\${HOME}/admin.conf
 export NS='kubectl config set-context --current --namespace'
@@ -46,5 +50,14 @@ curl -Lo filesInPatch.py https://raw.githubusercontent.com/openstack/neutron/033
 chmod 755 ./filesInPatch.py
 
 ln -s /home/vagrant/dev/network-tools.git/debug-scripts/network-tools ||:
+
+# get helm
+[ -x "/usr/local/bin/helm" ] || {
+    mkdir -pv /tmp/helm_download && cd /tmp/helm_download
+    wget -qO- https://get.helm.sh/helm-v3.12.0-linux-amd64.tar.gz | tar -xvzf -
+    sudo chmod 755 linux-amd64/helm
+    sudo mv -v linux-amd64/helm /usr/local/bin/helm
+}
+cd
 
 echo ok
