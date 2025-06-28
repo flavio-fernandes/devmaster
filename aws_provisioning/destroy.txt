@@ -1,2 +1,0 @@
-cd /vagrant/aws_provisioning && ./openshift-install destroy cluster --dir /vagrant/aws_provisioning
-

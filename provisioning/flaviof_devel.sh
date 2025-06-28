@@ -49,15 +49,6 @@ cd /home/vagrant/.local/bin
 curl -Lo filesInPatch.py https://raw.githubusercontent.com/openstack/neutron/033a445fbf3529ee5a5ed3488d7461fa80336f0d/tools/files_in_patch.py
 chmod 755 ./filesInPatch.py
 
-ln -s /home/vagrant/dev/network-tools.git/debug-scripts/network-tools ||:
-
-# get helm
-[ -x "/usr/local/bin/helm" ] || {
-    mkdir -pv /tmp/helm_download && cd /tmp/helm_download
-    wget -qO- https://get.helm.sh/helm-v3.12.0-linux-amd64.tar.gz | tar -xvzf -
-    sudo chmod 755 linux-amd64/helm
-    sudo mv -v linux-amd64/helm /usr/local/bin/helm
-}
-cd
+## ln -s /home/vagrant/dev/network-tools.git/debug-scripts/network-tools ||:
 
 echo ok

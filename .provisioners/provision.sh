@@ -30,7 +30,9 @@ install_packages() {
 
     [ -n "${PKG_CLEAN}" ] && run ${PKG_CLEAN}
     [ -n "${PKG_UPGRADE}" ] && run ${PKG_UPGRADE}
-    [ -n "${REPOS[*]}" ] && run ${REPO_INSTALL} ${REPOS[*]}
+    for repo in "${REPOS[@]}"; do
+        run ${REPO_INSTALL} "$repo"
+    done
     [ -n "${PKGS[*]}" ] && run ${PKG_INSTALL} ${PKGS[@]}
 }
 
@@ -45,10 +47,22 @@ install_pips() {
     [ -n "${PIPS[*]}" ] && run ${PIP_INSTALL} ${PIPS[@]}
 }
 
+install_sysctl() {
+    local flavor="$1"
+    [ -f "${DIR}/common/sysctl" ] && {
+        sysctl -p "${DIR}/common/sysctl"
+        cp "${DIR}/common/sysctl" "/etc/sysctl.d/99-provision-common.conf"
+    }
+    [ -f "${DIR}/${flavor}/sysctl" ] && {
+        sysctl -p "${DIR}/${flavor}/sysctl"
+        cp "${DIR}/${flavor}/sysctl" "/etc/sysctl.d/99-provision-${flavor}.conf"
+    }
+}
+
 provision() {
     local flavor="$1"
     for job in $(ls -1 ${DIR}/${flavor}); do
-	    [[ "$job" =~ ^(packages|pips)$ ]] && continue
+        [[ "$job" =~ ^(packages|pips|sysctl)$ ]] && continue
 	run ${DIR}/${flavor}/$job
     done
 }
@@ -59,6 +73,7 @@ provision() {
 get_id_match
 echo "Matched provisioner flavor: ${ID_MATCH:-none}"
 
+install_sysctl "$ID_MATCH"
 install_packages "$ID_MATCH"
 install_pips
 
